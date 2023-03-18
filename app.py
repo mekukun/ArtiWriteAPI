@@ -35,9 +35,10 @@ app.add_middleware(
 # - nitrosocke/Future-Diffusion ("future style ...")
 # - johnslegers/epic-diffusion
 
-device = "cuda"
+device = "cpu"
 model_id = "circulus/sd-anireal-v2.5"
-pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16, use_auth_token=api_token)
+pipe = StableDiffusionPipeline.from_pretrained(model_id, use_auth_token=api_token)
+# pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16, use_auth_token=api_token)
 pipe.to(device)
 pipe.safety_checker = None
 
