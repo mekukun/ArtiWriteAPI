@@ -1,7 +1,6 @@
 import os
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
-import torch
 from diffusers import StableDiffusionPipeline
 from io import BytesIO
 import base64
