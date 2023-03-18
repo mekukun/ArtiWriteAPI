@@ -1,10 +1,15 @@
-from auth_token import key
+import os
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 import torch
 from diffusers import StableDiffusionPipeline
 from io import BytesIO
-import base64 
+import base64
+from dotenv import load_dotenv
+
+load_dotenv()
+
+api_token = os.getenv("API_TOKEN")
 
 app = FastAPI()
 
@@ -32,7 +37,7 @@ app.add_middleware(
 
 device = "cuda"
 model_id = "circulus/sd-anireal-v2.5"
-pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16, use_auth_token=key)
+pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16, use_auth_token=api_token)
 pipe.to(device)
 pipe.safety_checker = None
 
@@ -43,5 +48,5 @@ def generate(prompt: str):
     buffer = BytesIO()
     image.save(buffer, format="PNG")
     imgstr = base64.b64encode(buffer.getvalue())
-
+ 
     return Response(content=imgstr, media_type="image/png")
